@@ -50,6 +50,7 @@ public function __destruct()
  */
 
     public function connect($name){
+    	$name = explode('?', $name)[0];
         if (!isset($this->server->nsps[$name])) 
         {
             $this->packet(array('type'=> Parser::ERROR, 'nsp'=> $name, 'data'=> 'Invalid namespace'));
