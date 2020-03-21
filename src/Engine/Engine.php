@@ -162,18 +162,16 @@ class Engine extends Emitter
             $defaultPort = 'https:' === $parts['scheme'] ? 443 : 80;
             $parts['port'] = isset($parts['port']) ? $parts['port'] : $defaultPort;
             $allowed_origins = explode(' ', $this->origins);
-            foreach( $allowed_origins as $allow_origin ){
-                $ok =
-                    $allow_origin === $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] ||
-                    $allow_origin === $parts['scheme'] . '://' . $parts['host'] ||
-                    $allow_origin === $parts['scheme'] . '://' . $parts['host'] . ':*' ||
-                    $allow_origin === '*:' . $parts['port'];
-                if($ok){
-                    # 只需要有一个白名单通过，则都通过
+            //foreach($allowed_origins as $allow_origin){
+            	if(in_array($origin, $allowed_origins)){
+            		$ok =
+                    $origin === $parts['scheme'] . '://' . $parts['host'] . ':' . $parts['port'] ||
+                    $origin === $parts['scheme'] . '://' . $parts['host'] ||
+                    $origin === $parts['scheme'] . '://' . $parts['host'] . ':*' ||
+                    $origin === '*:' . $parts['port'];
                     return call_user_func($fn, null, $ok, $req, $res);
-                }
-                
-            }
+	            }
+            //}
         }
         call_user_func($fn, null, false, $req, $res);
     }
